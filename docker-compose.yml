@@ -1,22 +1,20 @@
 version: '2'
 services:
   site:
-    image: evns/grav
-    restart: always
-    ports:
+    #image: evns/grav
+    build: .
+    expose:
       - "80:80"
-      - "443:443"
     environment:
-      - ADMIN_USER=admin
-      - ADMIN_PASSWORD=Pa55word
-      - ADMIN_EMAIL=admin@example.com
-      - ADMIN_PERMISSIONS=b
-      - ADMIN_FULLNAME=Admin
-      - ADMIN_TITLE=SiteAdmin
-      - DOMAIN=example.com    # set to your root/apex domain
+      - DOMAIN=    # set to your root/apex domain
       - GENERATE_CERTS=false  # set to true to automatically setup trusted ssl with let's encrypt
+    env_files:
+      - ./frontend.env
+      - ./grav.env
     volumes:
-      - backup:/var/www/grav-admin/
-volumes:
-  backup:
-    external: false
+      - ./backup:/var/www/grav-admin/
+    networks:
+      - frontend-web
+networks:
+  frontend-web:
+    external: true
