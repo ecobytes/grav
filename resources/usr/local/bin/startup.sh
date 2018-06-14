@@ -2,6 +2,16 @@
 
 set -e
 
+function configure_userdata() {
+    export GRAV_USERDATA=/var/www/grav-admin/user
+    if [ ! "$(ls -A $GRAV_USERDATA)" ]; then
+        echo "[ INFO ] Setting up Grav user data directory"
+        cp -R $GRAV_USERDATA.src/* $GRAV_USERDATA/
+    else
+        echo "[ INFO ] Using existing Grav user data directory"
+    fi
+}
+
 function configure_admin() {
     export GRAV_HOME=/var/www/grav-admin
 
@@ -47,6 +57,7 @@ function start_services() {
 
 
 function main() {
+    configure_userdata
     configure_admin
     configure_nginx
     start_services

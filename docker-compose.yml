@@ -13,6 +13,7 @@ services:
       - ./grav.env
     volumes:
       - ./backup:/var/www/grav-admin/backup
+      - ./user:/var/www/grav-admin/user
     networks:
       - frontend-web
 networks:
